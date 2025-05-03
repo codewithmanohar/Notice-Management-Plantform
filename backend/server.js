@@ -1,7 +1,7 @@
 import express from "express"
 import dotenv from "dotenv";
 import connectDB from "./Configs/config.js";
-import studentRoute  from "./Routes/student-route.js";
+import studentRoute  from "./Routes/student.js";
 
 const app = express();
 app.use(express.json());
