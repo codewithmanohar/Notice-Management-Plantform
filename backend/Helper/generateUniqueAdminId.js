@@ -1,3 +1,5 @@
+import Admin from "../Models/Admin.js";
+
 async function generateUniqueAdminId() {
     let adminId;
     let isUnique = false;
