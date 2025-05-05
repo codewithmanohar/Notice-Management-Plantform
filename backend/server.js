@@ -4,9 +4,11 @@ import connectDB from "./Configs/config.js";
 import studentRouter  from "./Routes/student.js";
 import adminRouter from "./Routes/admin.js"
 import facultyRouter from "./Routes/faculty.js"
+import cors from "cors"
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 const PORT = process.env.PORT || 8000 ; 
 dotenv.config();
 
