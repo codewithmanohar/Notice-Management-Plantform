@@ -112,10 +112,10 @@ export const loginFaculty = async (req, res) => {
 
     return res.status(200).json({
       message: 'Login successful',
+      role: user.role,
       faculty: {
         faculty_id: faculty.faculty_id,
         email: personalDetails.email,
-        role: user.role,
         department: faculty.department,
         designation: faculty.designation,
       },

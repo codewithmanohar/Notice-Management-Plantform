@@ -108,10 +108,10 @@ export const loginAdmin = async (req, res) => {
 
     return res.status(200).json({
       message: 'Login successful',
+      role: user.role,
       admin: {
         admin_id: admin.admin_id,
         email: personalDetails.email,
-        role: user.role,
       },
     });
   } catch (error) {

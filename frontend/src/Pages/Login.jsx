@@ -98,6 +98,8 @@
 import React, { useState } from "react";
 import { Sun, Moon, Mail, Lock, UserCircle2 } from "lucide-react";
 import useAuthStore from "../Store/useAuthStore";
+import { useNavigate } from "react-router-dom";
+
 
 export default function LoginPage() {
   const [darkMode, setDarkMode] = useState(false);
@@ -106,8 +108,9 @@ export default function LoginPage() {
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
 
-  const {userLogin} = useAuthStore();
+  const {userLogin , authUser } = useAuthStore();
 
   const toggleDarkMode = () => {
     document.documentElement.classList.toggle("dark");
@@ -119,10 +122,20 @@ export default function LoginPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Login Submitted:", formData);
-    userLogin(formData);
+    try {
+      const user = await userLogin(formData); // assumes userLogin returns user data
+      console.log(user)
+      if (user?.data?.role === "admin") navigate("/dashboard/admin");
+      else if (user?.data?.role === "faculty") navigate("/dashboard/faculty");
+      else if (user?.data?.role === "student") navigate("/dashboard/student");
+      else navigate("/login");
+    } catch (err) {
+      console.error(err);
+    }
+    
+
   };
 
   return (
@@ -200,6 +213,22 @@ export default function LoginPage() {
           </div>
 
         </form>
+
+      <div className="text-center mt-6">
+
+
+       {/* Signup Button */}
+      <p className="mt-4 text-sm text-gray-600 dark:text-gray-300">
+        don't have an account?
+        <a
+      href="/choose-role"
+      className="ml-2 text-blue-700 dark:text-blue-400 font-medium hover:underline"
+    >
+      Create an account
+    </a>
+  </p>
+</div>
+
       </div>
     </div>
   );

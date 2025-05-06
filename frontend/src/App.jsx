@@ -27,7 +27,7 @@ const App = () => {
       {/* 404 fallback */}
       <Route path='*' element={<NotFoundPage/>}/>
       </Routes>
-    </>
+    </> 
   )
 }
 

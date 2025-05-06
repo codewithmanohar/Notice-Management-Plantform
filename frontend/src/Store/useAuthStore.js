@@ -5,6 +5,23 @@ import { Navigate } from "react-router-dom";
 const useAuthStore = create((set) => ({
     authUser : null ,
 
+    studentRegister : async (data) =>{
+        // set({isSigningUp : true})
+        try {
+            // Creating the user 
+            const user = await axios.post("http://localhost:8000/api/student/register" , data);
+            if(user) alert("User registered Successfully !");
+            else alert("User Not Created !");
+            // setting the authenticated user 
+            set({authUser : user.data});
+        } catch (error) {
+            alert(error.response.data.message);
+            console.log("Error in Signup : ", error );
+        }finally{
+            // set({isSigningUp : false});
+        }
+    },
+
     facultyRegister : async (data) =>{
         // set({isSigningUp : true})
         try {
@@ -48,6 +65,7 @@ const useAuthStore = create((set) => ({
             else alert("Something Went Wrong !");
             // setting the authenticated user 
             set({authUser : user.data});
+            return user ; 
         } catch (error) {
             alert(error.response.data.message);
             console.log("Error in Signup : ", error );
