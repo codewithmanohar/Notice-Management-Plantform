@@ -46,7 +46,7 @@ export default function HomePage() {
           <Link to="/login" className="bg-white text-blue-900 px-4 py-2 rounded-full font-medium hover:bg-gray-100 transition text-sm">
             Login
           </Link>
-          <Link to="/admin/register" className="bg-blue-600 text-white px-4 py-2 rounded-full font-medium hover:bg-blue-700 transition text-sm">
+          <Link to="/choose-role" className="bg-blue-600 text-white px-4 py-2 rounded-full font-medium hover:bg-blue-700 transition text-sm">
             Register
           </Link>
         </div>

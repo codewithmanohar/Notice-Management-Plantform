@@ -41,7 +41,8 @@ export default function AdminRegistration(){
   };
 
   return (
-    <div className="min-h-screen px-4 py-10 bg-white text-black dark:bg-slate-900 dark:text-white transition duration-300">
+    <div className="min-h-screen px-4 py-10  text-black bg-gradient-to-tr from-white via-blue-100 to-blue-200  dark:from-gray-900 dark:via-gray-800 dark:to-gray-900  dark:text-white transition duration-100">
+    {/* <div className="min-h-screen px-4 py-10 bg-white text-black dark:bg-slate-900 dark:text-white transition duration-300"> */}
       <div className="max-w-3xl mx-auto bg-white dark:bg-slate-800 shadow-xl rounded-2xl p-8">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-semibold text-blue-900 dark:text-white">

@@ -1,5 +1,6 @@
 import {create} from "zustand";
 import axios from "axios"
+import { Navigate } from "react-router-dom";
 
 const useAuthStore = create((set) => ({
     authUser : null ,
@@ -37,6 +38,24 @@ const useAuthStore = create((set) => ({
             // set({isSigningUp : false});
         }
     },
+
+    userLogin : async (data) =>{
+        // set({isSigningUp : true})
+        try {
+            // Creating the user 
+            const user = await axios.post(`http://localhost:8000/api/${data.role}/login` , data);
+            if(user) alert("User Login Successfully !");
+            else alert("Something Went Wrong !");
+            // setting the authenticated user 
+            set({authUser : user.data});
+        } catch (error) {
+            alert(error.response.data.message);
+            console.log("Error in Signup : ", error );
+        }finally{
+            // set({isSigningUp : false});
+        }
+    },
+
 
 }))
 
