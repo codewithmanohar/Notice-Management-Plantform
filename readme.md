@@ -1,43 +1,68 @@
 # 🎓 University Notice Management Platform
 
-A web-based application that allows universities to manage, approve, and distribute notices efficiently to faculty and students. It features role-based access control, faculty approval workflow, real-time notifications, and a modern responsive UI.
+A web-based platform that enables universities to efficiently manage, approve, and distribute notices to students and faculty. The system supports role-based access, notice management, real-time notifications, and a responsive, modern UI.
 
 ---
 
-## 🚀 Features
+## 📌 1. Overview
 
-### 🔐 Role-Based Access
-- **Admin**
-  - Manage notices (create, edit, delete)
-  - View and approve faculty registrations
-  - Monitor system settings
-- **Faculty**
-  - Post academic notices (after approval)
-- **Student**
-  - View, search, and filter notices
+A web-based platform for universities to manage and distribute notices efficiently. It allows **admins** to post notices, **students** and **faculty** to view them, and provides features like categorization, search, notifications, and a faculty approval workflow.
 
-### 📨 Notice Management
-- Add notice with:
-  - Title, description, category
-  - Attachments (PDF, images)
-  - Publish/expiry date
-- Auto-hide expired notices
-- Category-based filtering (Exam, Events, Academic, General)
-- Search and sort notices by title/date
+---
 
-### 👨‍🏫 Faculty Approval System
-- Admin can view pending faculty requests
-- View full profile in a styled modal
-- Approve or reject with status update
+## ✨ 2. Features
 
-### 🌗 Theming
-- Light/Dark mode toggle
-- White, black, and dark blue branding
+### 🔐 A. User Roles
 
-### 📱 Responsive UI
-- Tailwind CSS-based layout
-- Responsive sidebar & topbar
-- Mobile drawer navigation
+- **Admin**  
+  - Post, edit, delete notices  
+  - Manage faculty approvals and categories  
+  - View user activity  
+
+- **Faculty**  
+  - Post and manage academic notices  
+
+- **Student**  
+  - View notices  
+  - Search and filter notices by category  
+
+---
+
+### 🧩 B. Core Features
+
+1. **User Authentication**  
+   - Login/Signup with Email and Password  
+
+2. **Role-based Access Control**  
+   - Admin, Faculty, Student  
+
+3. **Notice Creation & Management**  
+   - Add title, description, category, attachments (PDF/images), and date  
+   - Edit/delete by Admin or Faculty  
+
+4. **Categorization & Filtering**  
+   - Categories: Exam, Events, General, Academic  
+
+5. **Search & Sorting**  
+   - Filter by category, search by title or date  
+
+6. **Real-time Notifications**  
+   - Email, in-app, or push notifications when notices are posted  
+
+7. **Notice Expiry**  
+   - Auto-expire outdated notices  
+
+8. **Dashboard Analytics**  
+   - Admin overview of user activity and recent notices  
+
+---
+
+## 🚀 Additional Functional Features
+
+- Faculty approval via modal interface
+- Responsive layout for mobile and desktop
+- Dark mode/light mode toggle
+- Stylish UI with Tailwind CSS and Lucide icons
 
 ---
 
@@ -55,5 +80,5 @@ A web-based application that allows universities to manage, approve, and distrib
 
 ---
 
-## 📁 Project Structure (Frontend)
+## 📁 Project Structure
 
