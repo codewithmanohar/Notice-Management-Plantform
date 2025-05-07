@@ -4,7 +4,8 @@ import {
   loginAdmin, 
   getAdminDetails, 
   updateAdmin, 
-  deleteAdmin 
+  deleteAdmin, 
+  approveFaculty
 } from '../Controllers/adminController.js';
 
 const router = express.Router();
@@ -20,6 +21,9 @@ router.get('/details', getAdminDetails);
 
 // Update admin details
 router.put('/update', updateAdmin);
+
+// approve faculty details
+router.put('/approve', approveFaculty);
 
 // Delete an admin
 router.delete('/delete', deleteAdmin);

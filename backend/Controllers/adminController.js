@@ -3,6 +3,7 @@ import PersonalDetails from '../Models/personal_details.js';
 import User from '../Models/User.js';
 import Admin from '../Models/Admin.js';
 import generateUniqueAdminId from '../Helper/generateUniqueAdminId.js';
+import Faculty from '../Models/Faculty.js';
 
 // Register a new admin
 export const registerAdmin = async (req, res) => {
@@ -269,5 +270,34 @@ export const deleteAdmin = async (req, res) => {
   } catch (error) {
     console.error('Delete admin error:', error);
     return res.status(500).json({ message: 'Server error during admin deletion' });
+  }
+};
+
+// Approve Faculty By Admin
+export const approveFaculty = async (req, res) => {
+  try {
+    const { faculty_id } = req.body;
+
+    // Validate input
+    if ( !faculty_id) {
+      return res.status(400).json({ message: ' Faculty_id is required' });
+    }
+
+    // Find Faculty by faculty_id & update
+    const isApproved = await Faculty.findOneAndUpdate(
+      {faculty_id},
+      {isApproved : true},
+      { new: true, runValidators: true } // Return updated document, validate schema
+    );
+
+    if(isApproved){
+      return res.status(200).json({message : "Faculty is Approved Successfully !"});
+    };
+
+      return res.status(404).json({message : "Faculty not Approved "});
+  
+  } catch (error) {
+    console.error('Admin faculty approve error:', error);
+    return res.status(500).json({ message: 'Server error during faculty approve' });
   }
 };

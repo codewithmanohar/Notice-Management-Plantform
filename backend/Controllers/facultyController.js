@@ -285,3 +285,27 @@ export const deleteFaculty = async (req, res) => {
     return res.status(500).json({ message: 'Server error during faculty deletion' });
   }
 };
+
+
+// Delete a faculty
+export const getAllFaculty = async (req, res) => {
+  try {
+
+    // Find Faculty
+    const faculty = await Faculty.find({}).populate({
+      path: 'user_id',
+      select: '-password',
+      populate: { path: 'personal_info' },
+    });
+    if(faculty){
+      return res.status(200).json({faculty});
+    }
+    if (!faculty) {
+      return res.status(404).json({ message: 'Faculty not found' });
+    }
+
+  } catch (error) {
+    console.error('Delete faculty error:', error);
+    return res.status(500).json({ message: 'Server error during faculty deletion' });
+  }
+};

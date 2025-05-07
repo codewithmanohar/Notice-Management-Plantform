@@ -10,6 +10,7 @@ import ChooseRole from './Pages/ChooseRole'
 import useAuthStore from './Store/useAuthStore'
 import FacultyDashboard from './Pages/FacultyDashboard'
 import AdminDashboard from './Pages/AdminDashboard'
+import FacultyApprovalDashboard from './Pages/FacultyApprovalDashboard'
 
 const App = () => {
   const {authUser} = useAuthStore();
@@ -23,6 +24,7 @@ const App = () => {
       <Route path='/choose-role' element={<ChooseRole/>} />
       <Route path='/dashboard/faculty' element={authUser ? <FacultyDashboard/> : <Navigate to="/login" />} />
       <Route path='/dashboard/admin' element={authUser ? <AdminDashboard/> : <Navigate to="/login" />} />
+      <Route path='/faculty/list' element={<FacultyApprovalDashboard/>} />
 
       {/* 404 fallback */}
       <Route path='*' element={<NotFoundPage/>}/>

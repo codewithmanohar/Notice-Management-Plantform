@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Menu, Sun, Moon, LogOut, X } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function AdminDashboard() {
   const [darkMode, setDarkMode] = useState(false);
@@ -18,7 +19,7 @@ export default function AdminDashboard() {
         <h2 className="text-xl font-bold mb-6 text-blue-900 dark:text-white">Admin Panel</h2>
         <nav className="space-y-4">
           <a href="#" className="block py-2 px-3 rounded-md hover:bg-blue-100 dark:hover:bg-blue-700 transition">Dashboard</a>
-          <a href="#" className="block py-2 px-3 rounded-md hover:bg-blue-100 dark:hover:bg-blue-700 transition">Manage Users</a>
+          <Link to="/faculty/list" className="block py-2 px-3 rounded-md hover:bg-blue-100 dark:hover:bg-blue-700 transition" >Manage Users</Link>
           <a href="#" className="block py-2 px-3 rounded-md hover:bg-blue-100 dark:hover:bg-blue-700 transition">Notices</a>
           <a href="#" className="block py-2 px-3 rounded-md hover:bg-blue-100 dark:hover:bg-blue-700 transition">System Settings</a>
         </nav>

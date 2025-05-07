@@ -1,5 +1,5 @@
 import express from 'express';
-import { registerFaculty, loginFaculty, getFacultyDetails, updateFaculty, deleteFaculty } from '../Controllers/facultyController.js';
+import { registerFaculty, loginFaculty, getFacultyDetails, updateFaculty, deleteFaculty, getAllFaculty } from '../Controllers/facultyController.js';
 
 const router = express.Router();
 
@@ -11,6 +11,9 @@ router.post('/login', loginFaculty);
 
 // Get faculty details by faculty_id or email
 router.get('/details', getFacultyDetails);
+
+// Get all faculty details 
+router.get('/getAllFaculty', getAllFaculty);
 
 // Update faculty details
 router.put('/update', updateFaculty);
