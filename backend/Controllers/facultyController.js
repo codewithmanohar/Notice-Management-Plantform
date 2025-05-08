@@ -110,6 +110,11 @@ export const loginFaculty = async (req, res) => {
       return res.status(404).json({ message: 'Faculty record not found' });
     }
 
+    // Check if faculty is approved
+    if (!faculty.isApproved){
+      return res.status(403).json({ message: 'You are not approved by admin' });
+    }
+
     return res.status(200).json({
       message: 'Login successful',
       role: user.role,
