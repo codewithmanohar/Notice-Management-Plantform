@@ -25,6 +25,7 @@ const App = () => {
       <Route path='/dashboard/faculty' element={authUser ? <FacultyDashboard/> : <Navigate to="/login" />} />
       <Route path='/dashboard/admin' element={authUser ? <AdminDashboard/> : <Navigate to="/login" />} />
       <Route path='/faculty/list' element={<FacultyApprovalDashboard/>} />
+      <Route path='/faculty/list' element={<FacultyApprovalDashboard/>} />
 
       {/* 404 fallback */}
       <Route path='*' element={<NotFoundPage/>}/>

@@ -19,6 +19,6 @@ router.get('/getAllFaculty', getAllFaculty);
 router.put('/update', updateFaculty);
 
 // Delete a faculty
-router.delete('/delete', deleteFaculty);
+router.delete('/delete/:faculty_id', deleteFaculty);
 
 export default router;

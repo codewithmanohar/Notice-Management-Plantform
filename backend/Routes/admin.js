@@ -23,7 +23,7 @@ router.get('/details', getAdminDetails);
 router.put('/update', updateAdmin);
 
 // approve faculty details
-router.put('/approve', approveFaculty);
+router.patch('/approve/:faculty_id', approveFaculty);
 
 // Delete an admin
 router.delete('/delete', deleteAdmin);

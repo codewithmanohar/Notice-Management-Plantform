@@ -258,7 +258,7 @@ export const updateFaculty = async (req, res) => {
 // Delete a faculty
 export const deleteFaculty = async (req, res) => {
   try {
-    const { faculty_id } = req.body;
+    const { faculty_id } = req.params;
 
     if (!faculty_id) {
       return res.status(400).json({ message: 'faculty_id is required' });
@@ -287,7 +287,7 @@ export const deleteFaculty = async (req, res) => {
 };
 
 
-// Delete a faculty
+// get all faculty
 export const getAllFaculty = async (req, res) => {
   try {
 

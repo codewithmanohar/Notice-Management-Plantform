@@ -1,73 +1,68 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Menu, Sun, Moon, LogOut, X, Eye } from "lucide-react";
 import { Link } from "react-router-dom";
 import FacultyViewModal from "../Components/FacultyViewModal";
-
-const mockFacultyList = [
-  {
-    _id: "1",
-    user_id: {
-      personal_info: {
-        first_name: "John",
-        last_name: "Doe",
-        email: "john.doe@example.com",
-        phone: "1234567890",
-        gender: "male",
-        created_at: "2025-05-01T10:00:00Z"
-      }
-    },
-    faculty_id: 1001,
-    department: "Computer Science",
-    designation: "Professor",
-    isApproved: false
-  },
-  {
-    _id: "2",
-    user_id: {
-      personal_info: {
-        first_name: "Jane",
-        last_name: "Smith",
-        email: "jane.smith@example.com",
-        phone: "9876543210",
-        gender: "female",
-        created_at: "2025-05-02T12:00:00Z"
-      }
-    },
-    faculty_id: 1002,
-    department: "Mathematics",
-    designation: "Associate Professor",
-    isApproved: false
-  }
-];
+import useAdminStore from "../Store/useAdminStore";
 
 export default function FacultyApprovalDashboard() {
   const [darkMode, setDarkMode] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [facultyList, setFacultyList] = useState(mockFacultyList);
+  const [facultyList, setFacultyList] = useState([]);
   const [selectedFaculty, setSelectedFaculty] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
 
+  const { getAllFaculty , approveFaculty , deleteFaculty} = useAdminStore();
   const toggleDarkMode = () => {
     document.documentElement.classList.toggle("dark");
     setDarkMode(!darkMode);
   };
 
+  // ✅ Load faculty from Zustand store (API call inside store)
+  useEffect(() => {
+    const fetchFaculties = async () => {
+      try {
+        const faculties = await getAllFaculty();
+        // Only keep pending ones
+        const pendingFaculties = faculties.filter((f) => !f.isApproved);
+        setFacultyList(pendingFaculties);
+      } catch (err) {
+        console.error("Error loading faculty list:", err);
+      }
+    };
+    fetchFaculties();
+  }, [getAllFaculty]);
+  
+
+  // ✅ Approve selected faculty
   const handleApprove = async () => {
     if (!selectedFaculty) return;
-    setIsProcessing(true);
-    setTimeout(() => {
+    try {
+      setIsProcessing(true);
+  
+      const isApproved = await approveFaculty(selectedFaculty.faculty_id);
+      if (!isApproved) return;
+  
+      // ✅ Remove approved faculty from list
       setFacultyList((prev) =>
-        prev.map((f) =>
-          f._id === selectedFaculty._id ? { ...f, isApproved: true } : f
-        )
+        prev.filter((f) => f._id !== selectedFaculty._id)
       );
-      setSelectedFaculty({ ...selectedFaculty, isApproved: true });
+  
+      setSelectedFaculty(null);
+    } catch (error) {
+      console.error("Failed to approve faculty:", error);
+    } finally {
       setIsProcessing(false);
-    }, 1000);
+    }
   };
+  
 
-  const handleReject = () => {
+  // ✅ Reject / Deleted selected faculty
+  const handleReject = async () => {
     if (!selectedFaculty) return;
+     // ✅ Call backend to deleting faculty by faculty_id
+     console.log(selectedFaculty.faculty_id);
+    const res = deleteFaculty(selectedFaculty.faculty_id);
+    if(!res) return
     setFacultyList((prev) =>
       prev.filter((f) => f._id !== selectedFaculty._id)
     );
@@ -165,18 +160,16 @@ export default function FacultyApprovalDashboard() {
           </div>
         </main>
 
- 
         {/* View Modal */}
         {selectedFaculty && (
-        <FacultyViewModal
-           faculty={selectedFaculty}
-          onApprove={handleApprove}
-          onReject={handleReject}
-          onClose={closeModal}
-          isProcessing={isProcessing}
-        />
-)}
-
+          <FacultyViewModal
+            faculty={selectedFaculty}
+            onApprove={handleApprove}
+            onReject={handleReject}
+            onClose={closeModal}
+            isProcessing={isProcessing}
+          />
+        )}
       </div>
     </div>
   );

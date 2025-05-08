@@ -276,28 +276,21 @@ export const deleteAdmin = async (req, res) => {
 // Approve Faculty By Admin
 export const approveFaculty = async (req, res) => {
   try {
-    const { faculty_id } = req.body;
+    const { faculty_id } = req.params; // ✅ correctly extract ID
+    console.log("Approving Faculty ID:", faculty_id);
 
-    // Validate input
-    if ( !faculty_id) {
-      return res.status(400).json({ message: ' Faculty_id is required' });
-    }
-
-    // Find Faculty by faculty_id & update
-    const isApproved = await Faculty.findOneAndUpdate(
-      {faculty_id},
-      {isApproved : true},
-      { new: true, runValidators: true } // Return updated document, validate schema
+    const faculty = await Faculty.findOneAndUpdate(
+      { faculty_id: parseInt(faculty_id) }, // convert to Number if needed
+      { isApproved: true },
+      { new: true }
     );
 
-    if(isApproved){
-      return res.status(200).json({message : "Faculty is Approved Successfully !"});
-    };
+    if (!faculty) {
+      return res.status(404).json({ message: "Faculty not found" });
+    }
 
-      return res.status(404).json({message : "Faculty not Approved "});
-  
+    res.status(200).json({ message: "Faculty approved successfully", faculty });
   } catch (error) {
-    console.error('Admin faculty approve error:', error);
-    return res.status(500).json({ message: 'Server error during faculty approve' });
+    res.status(500).json({ message: "Approval failed", error });
   }
 };
