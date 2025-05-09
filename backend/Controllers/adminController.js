@@ -4,6 +4,7 @@ import User from '../Models/User.js';
 import Admin from '../Models/Admin.js';
 import generateUniqueAdminId from '../Helper/generateUniqueAdminId.js';
 import Faculty from '../Models/Faculty.js';
+import { setUser , getUser } from "../Services/auth.js";
 
 // Register a new admin
 export const registerAdmin = async (req, res) => {
@@ -107,6 +108,8 @@ export const loginAdmin = async (req, res) => {
       return res.status(404).json({ message: 'Admin record not found' });
     }
 
+    const token = setUser(admin);
+    res.cookie("uid",token);
     return res.status(200).json({
       message: 'Login successful',
       role: user.role,
@@ -115,6 +118,7 @@ export const loginAdmin = async (req, res) => {
         email: personalDetails.email,
       },
     });
+
   } catch (error) {
     console.error('Admin login error:', error);
     return res.status(500).json({ message: 'Server error during admin login' });
