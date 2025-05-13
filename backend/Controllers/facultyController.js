@@ -3,6 +3,7 @@ import PersonalDetails from '../Models/personal_details.js';
 import User, { UserRole } from '../Models/User.js';
 import Faculty from '../Models/Faculty.js';
 import generateUniqueFacultyId from '../Helper/generateUniqueFacultyId.js';
+import { setUser } from '../Services/auth.js';
 
 // Register a new faculty
 export const registerFaculty = async (req, res) => {
@@ -115,6 +116,9 @@ export const loginFaculty = async (req, res) => {
       return res.status(403).json({ message: 'You are not approved by admin' });
     }
 
+    // generating token 
+    const token = setUser(faculty);
+    res.cookie("uid" , token);
     return res.status(200).json({
       message: 'Login successful',
       role: user.role,
@@ -290,7 +294,6 @@ export const deleteFaculty = async (req, res) => {
     return res.status(500).json({ message: 'Server error during faculty deletion' });
   }
 };
-
 
 // get all faculty
 export const getAllFaculty = async (req, res) => {

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Menu, Sun, Moon, LogOut, X, Eye } from "lucide-react";
 import { Link } from "react-router-dom";
-import FacultyViewModal from "../Components/FacultyViewModal";
-import useAdminStore from "../Store/useAdminStore";
+import FacultyViewModal from "../../Components/FacultyViewModal";
+import useAdminStore from "../../Store/useAdminStore";
 
 export default function FacultyApprovalDashboard() {
   const [darkMode, setDarkMode] = useState(false);

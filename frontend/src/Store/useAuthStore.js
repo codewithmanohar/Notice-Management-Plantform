@@ -61,7 +61,7 @@ const useAuthStore = create((set) => ({
         // set({isSigningUp : true})
         try {
             // Creating the user 
-            const user = await axios.post(`http://localhost:8000/api/${data.role}/login` , data);
+            const user = await axios.post(`http://localhost:8000/api/${data.role}/login` , data , {withCredentials : true});
             if(user) toast.success("User Login Successfully !");
             else alert("Something Went Wrong !");
             // setting the authenticated user 

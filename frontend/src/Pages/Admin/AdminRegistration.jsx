@@ -8,7 +8,7 @@ import {
   Lock,
   UserCircle2,
 } from "lucide-react";
-import useAuthStore from "../Store/useAuthStore";
+import useAuthStore from "../../Store/useAuthStore";
 
 export default function AdminRegistration() {
   const { adminRegister } = useAuthStore();

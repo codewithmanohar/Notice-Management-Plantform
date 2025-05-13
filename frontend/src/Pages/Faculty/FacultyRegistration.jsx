@@ -1,4 +1,4 @@
-import useAuthStore from "../Store/useAuthStore";
+import useAuthStore from "../../Store/useAuthStore";
 import React, { useState } from "react";
 import { Sun, Moon } from "lucide-react";
 

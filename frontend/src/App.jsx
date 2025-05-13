@@ -1,16 +1,14 @@
-import React from 'react'
 import Home from './Pages/Home'
-import FacultyRegistration from './Pages/FacultyRegistration'
-import AdminRegistration from "./Pages/AdminRegistration"
+import FacultyRegistration from './Pages/Faculty/FacultyRegistration'
+import AdminRegistration from "./Pages/Admin/AdminRegistration"
 import { Navigate, Route , Routes } from 'react-router-dom'
-import NotFoundPage from './Pages/NotPageFound'
+import NotFoundPage from './Pages/PageNotFound/NotPageFound'
 import Login from './Pages/Login'
 import ChooseRole from './Pages/ChooseRole'
-
 import useAuthStore from './Store/useAuthStore'
-import FacultyDashboard from './Pages/FacultyDashboard'
-import AdminDashboard from './Pages/AdminDashboard'
-import FacultyApprovalDashboard from './Pages/FacultyApprovalDashboard'
+import FacultyDashboard from './Pages/Faculty/FacultyDashboard'
+import AdminDashboard from './Pages/Admin/AdminDashboard'
+import FacultyApprovalDashboard from './Pages/Faculty/FacultyApprovalDashboard'
 
 const App = () => {
   const {authUser} = useAuthStore();
@@ -29,7 +27,7 @@ const App = () => {
 
       {/* 404 fallback */}
       <Route path='*' element={<NotFoundPage/>}/>
-      </Routes>
+    </Routes>
     </> 
   )
 }
