@@ -1,6 +1,7 @@
 import express from 'express';
 import { registerFaculty, loginFaculty, getFacultyDetails, updateFaculty, deleteFaculty, getAllFaculty } from '../Controllers/facultyController.js';
-
+import { protectedRoute } from '../Middlewares/authMiddleware.js';
+// import { protectedRoute } from '../Middlewares/authMiddleware.js';
 const router = express.Router();
 
 // Register a new faculty
@@ -13,7 +14,7 @@ router.post('/login', loginFaculty);
 router.get('/details', getFacultyDetails);
 
 // Get all faculty details 
-router.get('/getAllFaculty', getAllFaculty);
+router.get('/getAllFaculty', protectedRoute, getAllFaculty);
 
 // Update faculty details
 router.put('/update', updateFaculty);

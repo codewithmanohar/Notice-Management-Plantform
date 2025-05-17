@@ -1,7 +1,7 @@
 import Home from './Pages/Home'
 import FacultyRegistration from './Pages/Faculty/FacultyRegistration'
 import AdminRegistration from "./Pages/Admin/AdminRegistration"
-import { Navigate, Route , Routes } from 'react-router-dom'
+import { Navigate, Route , Routes } from 'react-router-dom' 
 import NotFoundPage from './Pages/PageNotFound/NotPageFound'
 import Login from './Pages/Login'
 import ChooseRole from './Pages/ChooseRole'

@@ -90,13 +90,13 @@ export const loginFaculty = async (req, res) => {
     // Find PersonalDetails by email
     const personalDetails = await PersonalDetails.findOne({ email });
     if (!personalDetails) {
-      return res.status(401).json({ message: 'Invalid email or password' });
+      return res.status(401).json({ message: 'Something went wrong' });
     }
 
     // Find User by personal_info
     const user = await User.findOne({ personal_info: personalDetails._id });
     if (!user || user.role !== 'faculty') {
-      return res.status(401).json({ message: 'Invalid email or password' });
+      return res.status(401).json({ message: 'Something went wrong' });
     }
 
     // Verify password
@@ -118,7 +118,7 @@ export const loginFaculty = async (req, res) => {
 
     // generating token 
     const token = setUser(faculty);
-    res.cookie("uid" , token);
+    res.cookie("JWT" , token);
     return res.status(200).json({
       message: 'Login successful',
       role: user.role,

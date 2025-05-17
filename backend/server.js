@@ -1,19 +1,22 @@
 import express from "express"
-import dotenv from "dotenv";
 import connectDB from "./Configs/config.js";
+import cookieParser from "cookie-parser";
 // import studentRouter  from "./Routes/student.js";
 import adminRouter from "./Routes/admin.js"
 import facultyRouter from "./Routes/faculty.js"
 import cors from "cors"
+import dotenv from "dotenv";
+dotenv.config();
+const PORT = process.env.PORT || 8000 ; 
 
 const app = express();
+app.use(cookieParser());
 app.use(express.json());
 app.use(cors({
     origin : "http://localhost:5173",
     credentials : true , 
 }));
-const PORT = process.env.PORT || 8000 ; 
-dotenv.config();
+
 
 // app.use("/api/student", studentRouter);
 
