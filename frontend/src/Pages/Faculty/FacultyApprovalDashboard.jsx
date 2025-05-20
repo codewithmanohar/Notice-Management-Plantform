@@ -74,40 +74,11 @@ export default function FacultyApprovalDashboard() {
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white transition-all duration-300">
 
-      {/* Sidebar */}
-      <aside className="hidden md:block md:w-64 bg-white dark:bg-gray-800 shadow-md p-4">
-        <h2 className="text-xl font-bold mb-6 text-blue-900 dark:text-white">Admin Panel</h2>
-        <nav className="space-y-4">
-          <Link to="/admin/dashboard" className="block py-2 px-3 rounded-md hover:bg-blue-100 dark:hover:bg-blue-700 transition">Dashboard</Link>
-          <Link to="/faculty/list" className="block py-2 px-3 rounded-md bg-blue-100 dark:bg-blue-700 text-blue-900 dark:text-white font-medium">Manage Users</Link>
-          <a href="#" className="block py-2 px-3 rounded-md hover:bg-blue-100 dark:hover:bg-blue-700 transition">Notices</a>
-          <a href="#" className="block py-2 px-3 rounded-md hover:bg-blue-100 dark:hover:bg-blue-700 transition">System Settings</a>
-        </nav>
-      </aside>
-
       {/* Main Content */}
       <div className="flex-1 flex flex-col">
-        {/* Topbar */}
-        <header className="flex justify-between items-center p-4 bg-white dark:bg-gray-800 shadow-md">
-          <div className="flex items-center gap-4">
-            <button onClick={() => setSidebarOpen(true)} className="md:hidden p-2 rounded-md bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600">
-              <Menu className="h-5 w-5" />
-            </button>
-            <h1 className="text-2xl font-semibold text-blue-900 dark:text-white">Faculty Approval</h1>
-          </div>
-          <div className="flex items-center gap-4">
-            <button onClick={toggleDarkMode} className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">
-              {darkMode ? <Sun className="h-5 w-5 text-yellow-400" /> : <Moon className="h-5 w-5 text-gray-900" />}
-            </button>
-            <button className="flex items-center gap-1 text-red-500 hover:text-red-600 transition">
-              <LogOut className="h-4 w-4" />
-              <span className="text-sm font-medium hidden sm:inline">Logout</span>
-            </button>
-          </div>
-        </header>
 
         {/* Faculty Table */}
-        <main className="flex-1 p-6">
+        <main className="flex-1 p-0">
           <h2 className="text-xl font-semibold mb-4">Pending Faculty Approvals</h2>
           <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md overflow-x-auto">
             <table className="min-w-full">

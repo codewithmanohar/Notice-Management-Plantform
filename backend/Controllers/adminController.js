@@ -109,7 +109,14 @@ export const loginAdmin = async (req, res) => {
     }
 
     const token = setUser(admin);
-    res.cookie("uid",token);
+    res.cookie("JWT",token,{
+      httpOnly: true,          // Prevent JS access — good for security
+      secure: false,           // Set to `true` in production with HTTPS
+      sameSite: 'Lax',         // Allows cookie in cross-origin requests like form posts and navigations
+      path: '/',               // Make cookie available to all routes
+      maxAge : 60 * 60 * 1000,
+});
+
     return res.status(200).json({
       message: 'Login successful',
       role: user.role,

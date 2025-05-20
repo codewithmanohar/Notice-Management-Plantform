@@ -5,6 +5,8 @@ import { toast } from "react-toastify";
 
 const useAuthStore = create((set) => ({
     authUser : null ,
+    isLoading : false ,
+    isSigningUp : false , 
 
     studentRegister : async (data) =>{
         // set({isSigningUp : true})
@@ -58,7 +60,7 @@ const useAuthStore = create((set) => ({
     },
 
     userLogin : async (data) =>{
-        // set({isSigningUp : true})
+        set({isSigningUp : true})
         try {
             // Creating the user 
             const user = await axios.post(`http://localhost:8000/api/${data.role}/login` , data , {withCredentials : true});
@@ -71,9 +73,24 @@ const useAuthStore = create((set) => ({
             toast.error(error.response.data.message);
             console.log("Error in Signup : ", error );
         }finally{
-            // set({isSigningUp : false});
+            set({isSigningUp : false});
         }
     },
+
+    checkAuth: async () => {
+    set({ isLoading: true });
+    try {
+        const res = await axios.get("http://localhost:8000/api/auth/check", { withCredentials: true });
+        console.log("verify token",res.data);
+        set({ authUser: res.data });
+    } catch (error){
+        toast.error(error?.response?.data?.message || "Authentication failed");
+        set({ authUser: null });
+    } finally {
+        set({ isLoading: false });
+    }
+}
+
 
 }))
 

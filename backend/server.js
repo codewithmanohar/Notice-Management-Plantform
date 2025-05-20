@@ -4,6 +4,8 @@ import cookieParser from "cookie-parser";
 // import studentRouter  from "./Routes/student.js";
 import adminRouter from "./Routes/admin.js"
 import facultyRouter from "./Routes/faculty.js"
+import checkAuth from "./Routes/checkAuth.js"
+
 import cors from "cors"
 import dotenv from "dotenv";
 dotenv.config();
@@ -23,6 +25,8 @@ app.use(cors({
 app.use("/api/admin", adminRouter);
 
 app.use("/api/faculty", facultyRouter);
+
+app.use("/api/auth", checkAuth);
 
 app.listen(PORT , () => {
     console.log(`Server is running PORT : ${PORT}`);

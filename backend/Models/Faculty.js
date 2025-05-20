@@ -5,6 +5,7 @@ const facultySchema = new mongoose.Schema({
   faculty_id: { type: Number, unique: true, required: true },
   department: { type: String, required: true },
   designation: { type: String, required: true },
+  school: { type: String, required: true },
   isApproved: { type: Boolean, required: true , default : false}
 });
 

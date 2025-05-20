@@ -12,5 +12,5 @@ export const setUser = (admin) =>{
 
 export const getUser = (token) => {
     if(!token) return null ; 
-    return jwt.verify(token,JWT_SECRET);
+    // return jwt.verify(token,JWT_SECRET);
 }

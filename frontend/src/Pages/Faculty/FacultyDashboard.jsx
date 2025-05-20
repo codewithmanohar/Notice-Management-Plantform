@@ -1,94 +1,46 @@
-import React, { useState } from "react";
-import { Menu, Sun, Moon, LogOut, X } from "lucide-react";
+import React from "react";
 
 export default function FacultyDashboard() {
-  const [darkMode, setDarkMode] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  const toggleDarkMode = () => {
-    document.documentElement.classList.toggle("dark");
-    setDarkMode(!darkMode);
-  };
-
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white transition-all duration-300">
+    <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+      <h2 className="text-2xl font-semibold text-blue-900 dark:text-white mb-4">
+        Welcome, Faculty 👩‍🏫
+      </h2>
+      <p className="text-gray-700 dark:text-gray-300 mb-2">
+        This is your personalized dashboard to manage academic notices, view relevant updates, and access your profile.
+      </p>
 
-      {/* Sidebar for Desktop */}
-      <aside className="hidden md:block md:w-64 bg-white dark:bg-gray-800 shadow-md p-4">
-        <h2 className="text-xl font-bold mb-6 text-blue-900 dark:text-white">Faculty Panel</h2>
-        <nav className="space-y-4">
-          <a href="#" className="block py-2 px-3 rounded-md hover:bg-blue-100 dark:hover:bg-blue-700 transition">Dashboard</a>
-          <a href="#" className="block py-2 px-3 rounded-md hover:bg-blue-100 dark:hover:bg-blue-700 transition">Notices</a>
-          <a href="#" className="block py-2 px-3 rounded-md hover:bg-blue-100 dark:hover:bg-blue-700 transition">Profile</a>
-          <a href="#" className="block py-2 px-3 rounded-md hover:bg-blue-100 dark:hover:bg-blue-700 transition">Settings</a>
-        </nav>
-      </aside>
-
-      {/* Sidebar Drawer for Mobile */}
-      {sidebarOpen && (
-        <div className="fixed inset-0 z-40 md:hidden bg-black bg-opacity-50" onClick={() => setSidebarOpen(false)}>
-          <aside
-            className="w-64 bg-white dark:bg-gray-800 shadow-md h-full p-4 z-50"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-bold text-blue-900 dark:text-white">Menu</h2>
-              <button onClick={() => setSidebarOpen(false)}>
-                <X className="h-6 w-6 text-gray-800 dark:text-white" />
-              </button>
-            </div>
-            <nav className="space-y-4">
-              <a href="#" className="block py-2 px-3 rounded-md hover:bg-blue-100 dark:hover:bg-blue-700 transition">Dashboard</a>
-              <a href="#" className="block py-2 px-3 rounded-md hover:bg-blue-100 dark:hover:bg-blue-700 transition">Notices</a>
-              <a href="#" className="block py-2 px-3 rounded-md hover:bg-blue-100 dark:hover:bg-blue-700 transition">Profile</a>
-              <a href="#" className="block py-2 px-3 rounded-md hover:bg-blue-100 dark:hover:bg-blue-700 transition">Settings</a>
-            </nav>
-          </aside>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+        <div className="p-5 bg-blue-50 dark:bg-blue-900 text-blue-900 dark:text-white rounded-lg shadow-md">
+          <h3 className="font-semibold text-lg mb-2">Total Notices Created</h3>
+          <p className="text-3xl font-bold">12</p>
         </div>
-      )}
+        <div className="p-5 bg-green-50 dark:bg-green-900 text-green-900 dark:text-white rounded-lg shadow-md">
+          <h3 className="font-semibold text-lg mb-2">Pending Approvals</h3>
+          <p className="text-3xl font-bold">3</p>
+        </div>
+        <div className="p-5 bg-yellow-50 dark:bg-yellow-800 text-yellow-800 dark:text-white rounded-lg shadow-md">
+          <h3 className="font-semibold text-lg mb-2">Upcoming Events</h3>
+          <p className="text-3xl font-bold">5</p>
+        </div>
+      </div>
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col">
-        {/* Topbar */}
-        <header className="flex justify-between items-center p-4 bg-white dark:bg-gray-800 shadow-md">
-          <div className="flex items-center gap-4">
-            {/* Hamburger Icon for mobile */}
-            <button
-              onClick={() => setSidebarOpen(true)}
-              className="md:hidden p-2 rounded-md bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600"
-            >
-              <Menu className="h-5 w-5" />
-            </button>
-            <h1 className="text-2xl font-semibold text-blue-900 dark:text-white">
-              Faculty Dashboard
-            </h1>
-          </div>
-          <div className="flex items-center gap-4">
-            <button
-              onClick={toggleDarkMode}
-              className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
-            >
-              {darkMode ? (
-                <Sun className="h-5 w-5 text-yellow-400" />
-              ) : (
-                <Moon className="h-5 w-5 text-gray-900" />
-              )}
-            </button>
-            <button className="flex items-center gap-1 text-red-500 hover:text-red-600 transition">
-              <LogOut className="h-4 w-4" />
-              <span className="text-sm font-medium hidden sm:inline">Logout</span>
-            </button>
-          </div>
-        </header>
-
-        {/* Content */}
-        <main className="flex-1 p-6">
-          <h2 className="text-xl font-semibold mb-4">Welcome, Faculty Member 👋</h2>
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-            <p>This is your faculty dashboard where you can manage notices, view updates, and update your profile.</p>
-            <p>This is your faculty dashboard under construction ....</p>
-          </div>
-        </main>
+      <div className="mt-8">
+        <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">Recent Notices</h3>
+        <ul className="divide-y divide-gray-300 dark:divide-gray-600">
+          <li className="py-3 flex justify-between items-center">
+            <span className="text-gray-700 dark:text-gray-300">Mid-Sem Exam Schedule Released</span>
+            <span className="text-sm text-gray-500">2 days ago</span>
+          </li>
+          <li className="py-3 flex justify-between items-center">
+            <span className="text-gray-700 dark:text-gray-300">AI Workshop Notice</span>
+            <span className="text-sm text-gray-500">4 days ago</span>
+          </li>
+          <li className="py-3 flex justify-between items-center">
+            <span className="text-gray-700 dark:text-gray-300">New Lab Timetable</span>
+            <span className="text-sm text-gray-500">1 week ago</span>
+          </li>
+        </ul>
       </div>
     </div>
   );

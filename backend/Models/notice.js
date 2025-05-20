@@ -10,7 +10,10 @@ const noticeSchema = new mongoose.Schema({
   category: { type: String, required: true },
   attachments: { type: Array, default: [] },
   priority: { type: String, required: true },
-  target_audience: { type: String, required: true }
+  target_filters: {
+  department: { type: [String], default: [] }, // e.g. ['CSE', 'ME']
+  year: { type: [String], default: [] },        // e.g. ['1st', '2nd']
+}
 });
 
 const Notice = mongoose.model('Notice', noticeSchema);

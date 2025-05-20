@@ -14,7 +14,7 @@ router.post('/login', loginFaculty);
 router.get('/details', getFacultyDetails);
 
 // Get all faculty details 
-router.get('/getAllFaculty', protectedRoute, getAllFaculty);
+router.get('/getAllFaculty', getAllFaculty);
 
 // Update faculty details
 router.put('/update', updateFaculty);
