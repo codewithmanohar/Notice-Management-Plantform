@@ -21,6 +21,7 @@ import StudentDashboard from './Pages/Student/StudentDashboard'
 import StudentNoticePage from './Pages/Student/StudentNoticePage'
 import StudentLayout from './Layouts/StudentLayout'
 import StudentProfile from './Pages/Student/StudentProfile'
+import StudentRegistration from './Pages/Student/StudentRegistration'
 
 
 const App = () => {
@@ -39,6 +40,7 @@ if (isLoading) return <div>Loading...</div>;
       <Route path='/' element={<Home/>} />
       <Route path='/register/faculty' element={<FacultyRegistration/>} />
       <Route path='/register/admin' element={<AdminRegistration/>} />
+      <Route path='/register/student' element={<StudentRegistration/>} />
       <Route path='/login' element={<Login/>} />
       <Route path='/choose-role' element={<ChooseRole/>} />
 
