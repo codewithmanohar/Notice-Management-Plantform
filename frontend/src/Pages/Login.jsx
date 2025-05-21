@@ -127,8 +127,9 @@ export default function LoginPage() {
     try {
       const user = await userLogin(formData); // assumes userLogin returns user data
       console.log(user)
+      console.log(authUser)
       if (user?.data?.role === "admin") navigate("/dashboard/admin");
-      else if (user?.data?.role === "faculty") navigate("/dashboard/faculty");
+      else if (user?.data?.role === "faculty") navigate("/faculty/dashboard");
       else if (user?.data?.role === "student") navigate("/dashboard/student");
       else navigate("/login");
     } catch (err) {

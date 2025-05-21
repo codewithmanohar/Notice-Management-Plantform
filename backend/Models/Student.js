@@ -5,7 +5,7 @@ const studentSchema = new mongoose.Schema({
   PRN: { type: Number, unique: true, required: true },
   course: { type: String, required: true },
   branch: { type: String, required: true },
-  semester: { type: Number, required: true },
+  semester: { type: String, required: true },
   session: { type: String, required: true }
 });
 

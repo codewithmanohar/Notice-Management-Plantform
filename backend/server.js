@@ -1,7 +1,7 @@
 import express from "express"
 import connectDB from "./Configs/config.js";
 import cookieParser from "cookie-parser";
-// import studentRouter  from "./Routes/student.js";
+import studentRouter  from "./Routes/student.js";
 import adminRouter from "./Routes/admin.js"
 import facultyRouter from "./Routes/faculty.js"
 import checkAuth from "./Routes/checkAuth.js"
@@ -20,7 +20,7 @@ app.use(cors({
 }));
 
 
-// app.use("/api/student", studentRouter);
+app.use("/api/student", studentRouter);
 
 app.use("/api/admin", adminRouter);
 

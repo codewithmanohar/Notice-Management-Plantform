@@ -17,6 +17,10 @@ import CreateNotice from './Pages/Notice/AdminCreateNotice'
 import FacultyCreateNotice from './Pages/Faculty/FacultyCreateNotice'
 import FacultyProfile from "./Pages/Faculty/FacultyProfile"
 import FacultyLayout from "./Layouts/FacultyLayout"
+import StudentDashboard from './Pages/Student/StudentDashboard'
+import StudentNoticePage from './Pages/Student/StudentNoticePage'
+import StudentLayout from './Layouts/StudentLayout'
+import StudentProfile from './Pages/Student/StudentProfile'
 
 
 const App = () => {
@@ -37,14 +41,6 @@ if (isLoading) return <div>Loading...</div>;
       <Route path='/register/admin' element={<AdminRegistration/>} />
       <Route path='/login' element={<Login/>} />
       <Route path='/choose-role' element={<ChooseRole/>} />
-      {/* protected routes
-      <Route path='/dashboard/faculty' element={authUser ? <FacultyDashboard/> : <Navigate to="/login" />} />
-      <Route path='/dashboard/admin' element={authUser ? <AdminLayout/> : <Navigate to="/login" />} />
-      <Route path='/faculty/list' element={authUser ? <FacultyApprovalDashboard/> : <Navigate to="/login" />} /> */}
-      {/* protected routes */}
-      <Route path='/dashboard/faculty' element={<FacultyDashboard/> } />
-      <Route path='/dashboard/admin' element={ <AdminLayout/> } />
-      <Route path='/faculty/list' element={<FacultyApprovalDashboard/>} />
 
 
       <Route path="/admin" element={<AdminLayout />}>
@@ -55,9 +51,18 @@ if (isLoading) return <div>Loading...</div>;
         </Route>
 
       <Route path="/faculty" element={<FacultyLayout />}>
+        <Route index element={<FacultyDashboard />} />
         <Route path="dashboard" element={<FacultyDashboard />} />
         <Route path="create-notice" element={<FacultyCreateNotice />} />
         <Route path="profile" element={<FacultyProfile />} />
+      </Route>
+
+      <Route path="/student" element={<StudentLayout />}>
+        <Route index element={<StudentDashboard />} />
+        <Route path="dashboard" element={<StudentDashboard />} />
+        <Route path="notices" element={<StudentNoticePage />} />
+        <Route path="profile" element={<StudentProfile />} />
+        {/* <Route path="settings" element={<StudentSettings />} /> */}
       </Route>
 
 

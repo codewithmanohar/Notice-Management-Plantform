@@ -64,17 +64,21 @@ const useAuthStore = create((set) => ({
         try {
             // Creating the user 
             const user = await axios.post(`http://localhost:8000/api/${data.role}/login` , data , {withCredentials : true});
-            if(user) toast.success("User Login Successfully !");
-            else alert("Something Went Wrong !");
-            // setting the authenticated user 
-            set({authUser : user.data});
-            return user ; 
+            if (user?.data) {
+            toast.success("User Login Successfully!");
+            set({ authUser: user.data });
+            return user;
+            } else {
+            toast.error("Something went wrong!");
+            return null;
+            }
         } catch (error) {
-            toast.error(error.response.data.message);
-            console.log("Error in Signup : ", error );
-        }finally{
-            set({isSigningUp : false});
-        }
+        toast.error(error?.response?.data?.message || "Login failed. Please try again.");
+        console.log("Error in Login: ", error);
+        return null;
+    } finally {
+        set({ isSigningUp: false });
+    }
     },
 
     checkAuth: async () => {
