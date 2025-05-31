@@ -1,10 +1,10 @@
-import Student from "../Models/Student.js";
+import Student from '../Models/Student.js';
 import User from '../Models/User.js';
-import PersonalDetails from "../Models/personal_details.js";
+import PersonalDetails from '../Models/personal_details.js';
+import { generateStudentId } from '../Helper/generateStudentId.js'; 
 import bcrypt from 'bcrypt';
 
-// Student registration controller
-export const registerStudent = async (req, res) => {
+export const createStudent = async (req, res) => {
   try {
     const {
       first_name,
@@ -13,78 +13,81 @@ export const registerStudent = async (req, res) => {
       phone,
       gender,
       password,
-      PRN,
-      course,
-      branch,
+      session,
       semester,
-      session
+      branch,
+      course,
+      academic_year,
     } = req.body;
 
     // Validate required fields
-    if (!first_name || !last_name || !email || !phone || !gender || !password || !PRN || !course || !branch || !semester || !session) {
+    if (
+      !first_name || !last_name || !email || !phone || !gender || !password ||
+      !session || !semester || !branch || !course || !academic_year 
+    ) {
       return res.status(400).json({ message: 'All fields are required' });
     }
 
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ message: 'Invalid email format' });
+    }
+
     // Check if email already exists
-    const existingEmail = await PersonalDetails.findOne({ email });
-    if (existingEmail) {
-      return res.status(400).json({ message: 'Email already registered' });
+    const existing = await PersonalDetails.findOne({ email });
+    if (existing) {
+      return res.status(409).json({ message: 'Email already registered' });
     }
 
-    // Check if PRN already exists
-    const existingPRN = await Student.findOne({ PRN });
-    if (existingPRN) {
-      return res.status(400).json({ message: 'PRN already registered' });
-    }
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Number of salt rounds for bcrypt
-    const SALT_ROUNDS = 10;
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+    // Create PersonalDetails
+    const personalDetails = new PersonalDetails({ first_name, last_name, email, phone, gender });
+    await personalDetails.save();
 
-    // Create PersonalDetails document
-    const personalDetails = new PersonalDetails({
-      first_name,
-      last_name,
-      email,
-      phone,
-      gender
-    });
-    const savedPersonalDetails = await personalDetails.save();
-
-    // Create User document with reference to PersonalDetails
+    // Create User
     const user = new User({
       role: 'student',
       password: hashedPassword,
-      personal_info: savedPersonalDetails._id
+      personal_info: personalDetails._id,
     });
-    const savedUser = await user.save();
+    await user.save();
 
-    // Create Student document with reference to User
+    // Generate unique student ID
+    const student_id = await generateStudentId();
+
+    // Create Student
     const student = new Student({
-      user_id: savedUser._id,
-      PRN,
-      course,
-      branch,
+      user_id: user._id,
+      student_id,
+      session,
       semester,
-      session
+      branch,
+      course,
+      academic_year
     });
+
     await student.save();
 
-    // Respond with success message
-    res.status(201).json({
+    return res.status(201).json({
       message: 'Student registered successfully',
-      user: {
-        id: savedUser._id,
-        email,
-        role: savedUser.role
-      }
+      student: {
+        email: personalDetails.email,
+        student_id,
+        course,
+        branch,
+        semester,
+      },
     });
+
   } catch (error) {
-    console.error('Error registering student:', error);
-    res.status(500).json({ message: 'Server error during registration' });
+    console.error('Student creation error:', error);
+    return res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
+
 
 // Get all students
 export const getAllStudents = async (req, res) => {
@@ -92,196 +95,28 @@ export const getAllStudents = async (req, res) => {
     const students = await Student.find()
       .populate({
         path: 'user_id',
-        populate: { path: 'personal_info' }
+        populate: { path: 'personal_info' },
       });
-
-    const formattedStudents = students.map(student => ({
-      id: student._id,
-      PRN: student.PRN,
-      course: student.course,
-      branch: student.branch,
-      semester: student.semester,
-      session: student.session,
-      personal_info: student.user_id?.personal_info ? {
-        first_name: student.user_id.personal_info.first_name,
-        last_name: student.user_id.personal_info.last_name,
-        email: student.user_id.personal_info.email,
-        phone: student.user_id.personal_info.phone,
-        gender: student.user_id.personal_info.gender
-      } : null
-    }));
-
-    res.status(200).json({
-      message: 'Students retrieved successfully',
-      students: formattedStudents
-    });
+    res.status(200).json(students);
   } catch (error) {
-    console.error('Error fetching students:', error);
-    res.status(500).json({ message: 'Server error while fetching students' });
+    res.status(500).json({ message: 'Error fetching students', error: error.message });
   }
 };
 
 // Get student by ID
 export const getStudentById = async (req, res) => {
   try {
-    const { id } = req.params;
-
-    const student = await Student.findById(id)
+    const student = await Student.findById(req.params.id)
       .populate({
         path: 'user_id',
-        populate: { path: 'personal_info' }
+        populate: { path: 'personal_info' },
       });
-
     if (!student) {
       return res.status(404).json({ message: 'Student not found' });
     }
-
-    const formattedStudent = {
-      id: student._id,
-      PRN: student.PRN,
-      course: student.course,
-      branch: student.branch,
-      semester: student.semester,
-      session: student.session,
-      personal_info: student.user_id?.personal_info ? {
-        first_name: student.user_id.personal_info.first_name,
-        last_name: student.user_id.personal_info.last_name,
-        email: student.user_id.personal_info.email,
-        phone: student.user_id.personal_info.phone,
-        gender: student.user_id.personal_info.gender
-      } : null
-    };
-
-    res.status(200).json({
-      message: 'Student retrieved successfully',
-      student: formattedStudent
-    });
+    res.status(200).json(student);
   } catch (error) {
-    console.error('Error fetching student:', error);
-    res.status(500).json({ message: 'Server error while fetching student' });
-  }
-};
-
-// Update student
-export const updateStudent = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const {
-      first_name,
-      last_name,
-      email,
-      phone,
-      gender,
-      PRN,
-      course,
-      branch,
-      semester,
-      session,
-      password
-    } = req.body;
-
-    // Find student
-    const student = await Student.findById(id).populate({
-      path: 'user_id',
-      populate: { path: 'personal_info' }
-    });
-
-    if (!student) {
-      return res.status(404).json({ message: 'Student not found' });
-    }
-
-    // Update personal details
-    const personalDetails = await PersonalDetails.findById(student.user_id.personal_info);
-    if (!personalDetails) {
-      return res.status(404).json({ message: 'Personal details not found' });
-    }
-
-    // Check for email uniqueness if email is being updated
-    if (email && email !== personalDetails.email) {
-      const existingEmail = await PersonalDetails.findOne({ email });
-      if (existingEmail) {
-        return res.status(400).json({ message: 'Email already registered' });
-      }
-    }
-
-    // Check for PRN uniqueness if PRN is being updated
-    if (PRN && PRN !== student.PRN) {
-      const existingPRN = await Student.findOne({ PRN });
-      if (existingPRN) {
-        return res.status(400).json({ message: 'PRN already registered' });
-      }
-    }
-
-    // Update personal details
-    personalDetails.first_name = first_name || personalDetails.first_name;
-    personalDetails.last_name = last_name || personalDetails.last_name;
-    personalDetails.email = email || personalDetails.email;
-    personalDetails.phone = phone || personalDetails.phone;
-    personalDetails.gender = gender || personalDetails.gender;
-    await personalDetails.save();
-
-    // Update student details
-    student.PRN = PRN || student.PRN;
-    student.course = course || student.course;
-    student.branch = branch || student.branch;
-    student.semester = semester || student.semester;
-    student.session = session || student.session;
-    await student.save();
-
-    // Update password if provided
-    if (password) {
-      const saltRounds = 10;
-      const hashedPassword = await bcrypt.hash(password, saltRounds);
-      const user = await User.findById(student.user_id);
-      user.password = hashedPassword;
-      await user.save();
-    }
-
-    const updatedStudent = {
-      id: student._id,
-      PRN: student.PRN,
-      course: student.course,
-      branch: student.branch,
-      semester: student.semester,
-      session: student.session,
-      personal_info: {
-        first_name: personalDetails.first_name,
-        last_name: personalDetails.last_name,
-        email: personalDetails.email,
-        phone: personalDetails.phone,
-        gender: personalDetails.gender
-      }
-    };
-
-    res.status(200).json({
-      message: 'Student updated successfully',
-      student: updatedStudent
-    });
-  } catch (error) {
-    console.error('Error updating student:', error);
-    res.status(500).json({ message: 'Server error while updating student' });
-  }
-};
-
-// Delete student
-export const deleteStudent = async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    const student = await Student.findById(id).populate('user_id');
-    if (!student) {
-      return res.status(404).json({ message: 'Student not found' });
-    }
-
-    // Delete associated personal details and user
-    await PersonalDetails.findByIdAndDelete(student.user_id.personal_info);
-    await User.findByIdAndDelete(student.user_id);
-    await Student.findByIdAndDelete(id);
-
-    res.status(200).json({ message: 'Student deleted successfully' });
-  } catch (error) {
-    console.error('Error deleting student:', error);
-    res.status(500).json({ message: 'Server error while deleting student' });
+    res.status(500).json({ message: 'Error fetching student', error: error.message });
   }
 };
 
@@ -289,52 +124,24 @@ export const deleteStudent = async (req, res) => {
 export const getStudentByPRN = async (req, res) => {
   try {
     const { PRN } = req.params;
-
     const student = await Student.findOne({ PRN })
       .populate({
         path: 'user_id',
-        populate: { path: 'personal_info' }
+        populate: { path: 'personal_info' },
       });
-
     if (!student) {
-      return res.status(404).json({ message: 'Student not found' });
+      return res.status(404).json({ message: 'Student not found with provided PRN' });
     }
-
-    const formattedStudent = {
-      id: student._id,
-      PRN: student.PRN,
-      course: student.course,
-      branch: student.branch,
-      semester: student.semester,
-      session: student.session,
-      personal_info: student.user_id?.personal_info ? {
-        first_name: student.user_id.personal_info.first_name,
-        last_name: student.user_id.personal_info.last_name,
-        email: student.user_id.personal_info.email,
-        phone: student.user_id.personal_info.phone,
-        gender: student.user_id.personal_info.gender
-      } : null
-    };
-
-    res.status(200).json({
-      message: 'Student retrieved successfully',
-      student: formattedStudent
-    });
+    res.status(200).json(student);
   } catch (error) {
-    console.error('Error fetching student by PRN:', error);
-    res.status(500).json({ message: 'Server error while fetching student' });
+    res.status(500).json({ message: 'Error fetching student by PRN', error: error.message });
   }
 };
 
-// Login student
+// Student login
 export const loginStudent = async (req, res) => {
   try {
     const { email, password } = req.body;
-
-    // Validate required fields
-    if (!email || !password) {
-      return res.status(400).json({ message: 'Email and password are required' });
-    }
 
     // Find personal details by email
     const personalDetails = await PersonalDetails.findOne({ email });
@@ -342,9 +149,9 @@ export const loginStudent = async (req, res) => {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
 
-    // Find user by personal details
-    const user = await User.findOne({ personal_info: personalDetails._id });
-    if (!user || user.role !== 'student') {
+    // Find associated user
+    const user = await User.findOne({ personal_info: personalDetails._id, role: 'student' });
+    if (!user) {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
 
@@ -358,36 +165,92 @@ export const loginStudent = async (req, res) => {
     const student = await Student.findOne({ user_id: user._id })
       .populate({
         path: 'user_id',
-        populate: { path: 'personal_info' }
+        populate: { path: 'personal_info' },
       });
-
     if (!student) {
-      return res.status(404).json({ message: 'Student details not found' });
+      return res.status(404).json({ message: 'Student profile not found' });
     }
 
-    const formattedStudent = {
-      id: student._id,
-      PRN: student.PRN,
-      course: student.course,
-      branch: student.branch,
-      semester: student.semester,
-      session: student.session,
-      personal_info: {
-        first_name: personalDetails.first_name,
-        last_name: personalDetails.last_name,
+    res.status(200).json({ 
+      message: 'Login successful', 
+      role : user.role , 
+       student: {
         email: personalDetails.email,
-        phone: personalDetails.phone,
-        gender: personalDetails.gender
-      }
-    };
-
-    res.status(200).json({
-      message: 'Login successful',
-      student: formattedStudent
-    });
+        student_id: student.student_id,
+        course : student.course,
+        branch : student.branch,
+        semester : student.semester,
+      },
+     });
   } catch (error) {
-    console.error('Error during student login:', error);
-    res.status(500).json({ message: 'Server error during login' });
+    res.status(500).json({ message: 'Error during login', error: error.message });
   }
 };
 
+// Update student
+export const updateStudent = async (req, res) => {
+  try {
+    const { session, semester, branch, course, academic_year, personal_info, password } = req.body;
+
+    const student = await Student.findById(req.params.id);
+    if (!student) {
+      return res.status(404).json({ message: 'Student not found' });
+    }
+
+    // Update student fields (PRN is not updated as it's unique and serial)
+    const updateData = {
+      session: session || student.session,
+      semester: semester || student.semester,
+      branch: branch || student.branch,
+      course: course || student.course,
+      academic_year: academic_year || student.academic_year,
+    };
+    await Student.findByIdAndUpdate(req.params.id, updateData, { new: true });
+
+    // Update associated user and personal details if provided
+    if (personal_info || password) {
+      const user = await User.findById(student.user_id);
+      if (!user) {
+        return res.status(404).json({ message: 'Associated user not found' });
+      }
+      if (personal_info) {
+        await PersonalDetails.findByIdAndUpdate(user.personal_info, personal_info, { new: true });
+      }
+      if (password) {
+        user.password = await bcrypt.hash(password, 10); // Hash new password
+        await user.save();
+      }
+    }
+
+    const updatedStudent = await Student.findById(req.params.id)
+      .populate({
+        path: 'user_id',
+        populate: { path: 'personal_info' },
+      });
+    res.status(200).json({ message: 'Student updated successfully', student: updatedStudent });
+  } catch (error) {
+    res.status(400).json({ message: 'Error updating student', error: error.message });
+  }
+};
+
+// Delete student
+export const deleteStudent = async (req, res) => {
+  try {
+    const student = await Student.findById(req.params.id);
+    if (!student) {
+      return res.status(404).json({ message: 'Student not found' });
+    }
+
+    // Delete associated user and personal details
+    const user = await User.findById(student.user_id);
+    if (user) {
+      await PersonalDetails.findByIdAndDelete(user.personal_info);
+      await User.findByIdAndDelete(student.user_id);
+    }
+
+    await Student.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: 'Student deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting student', error: error.message });
+  }
+};

@@ -22,6 +22,7 @@ import StudentNoticePage from './Pages/Student/StudentNoticePage'
 import StudentLayout from './Layouts/StudentLayout'
 import StudentProfile from './Pages/Student/StudentProfile'
 import StudentRegistration from './Pages/Student/StudentRegistration'
+import SettingsPage from './Pages/SettingsPage'
 
 
 const App = () => {
@@ -43,6 +44,8 @@ if (isLoading) return <div>Loading...</div>;
       <Route path='/register/student' element={<StudentRegistration/>} />
       <Route path='/login' element={<Login/>} />
       <Route path='/choose-role' element={<ChooseRole/>} />
+      <Route path='/settings' element={<SettingsPage/>} />
+
 
 
       <Route path="/admin" element={<AdminLayout />}>
@@ -50,6 +53,7 @@ if (isLoading) return <div>Loading...</div>;
           <Route path="dashboard" element={<DashboardHome />} />
           <Route path="users" element={<FacultyApprovalDashboard />} />
           <Route path="notices" element={<CreateNotice />} />
+          <Route path="settings" element={<SettingsPage />} />
         </Route>
 
       <Route path="/faculty" element={<FacultyLayout />}>
@@ -57,6 +61,7 @@ if (isLoading) return <div>Loading...</div>;
         <Route path="dashboard" element={<FacultyDashboard />} />
         <Route path="create-notice" element={<FacultyCreateNotice />} />
         <Route path="profile" element={<FacultyProfile />} />
+        <Route path="settings" element={<SettingsPage />} />
       </Route>
 
       <Route path="/student" element={<StudentLayout />}>
@@ -64,7 +69,7 @@ if (isLoading) return <div>Loading...</div>;
         <Route path="dashboard" element={<StudentDashboard />} />
         <Route path="notices" element={<StudentNoticePage />} />
         <Route path="profile" element={<StudentProfile />} />
-        {/* <Route path="settings" element={<StudentSettings />} /> */}
+        <Route path="settings" element={<SettingsPage />} />
       </Route>
 
 

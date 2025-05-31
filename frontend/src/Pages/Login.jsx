@@ -130,7 +130,7 @@ export default function LoginPage() {
       console.log(authUser)
       if (user?.data?.role === "admin") navigate("/dashboard/admin");
       else if (user?.data?.role === "faculty") navigate("/faculty/dashboard");
-      else if (user?.data?.role === "student") navigate("/dashboard/student");
+      else if (user?.data?.role === "student") navigate("/student/dashboard");
       else navigate("/login");
     } catch (err) {
       console.error(err);

@@ -1,9 +1,9 @@
 import express from 'express';
-import { registerStudent, getAllStudents, getStudentById, updateStudent, deleteStudent, getStudentByPRN, loginStudent } from "../Controllers/studentController.js";
+import { createStudent , getAllStudents, getStudentById, updateStudent, deleteStudent, getStudentByPRN, loginStudent } from "../Controllers/studentController.js";
 
 const router = express.Router();
 
-router.post('/register', registerStudent);
+router.post('/register', createStudent);
 router.get('/', getAllStudents);
 router.get('/:id', getStudentById);
 router.put('/:id', updateStudent);

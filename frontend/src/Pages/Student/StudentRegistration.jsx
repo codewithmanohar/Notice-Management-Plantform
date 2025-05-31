@@ -104,7 +104,6 @@ export default function StudentRegistration() {
               <option value="">Select Gender</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
-              <option value="other">Other</option>
             </select>
           </div>
 
@@ -117,6 +116,19 @@ export default function StudentRegistration() {
               placeholder="Password"
               value={formData.password}
               onChange={handleChange}
+              className="pl-10 w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+              required
+            />
+          </div>
+
+          {/* Confirm Password */}
+          <div className="relative">
+            <Lock className="absolute left-3 top-3 text-gray-400" size={18} />
+            <input
+              name="confirm_password"
+              type="password"
+              placeholder="Confirm Password"
+              value={formData.confirm_password}
               className="pl-10 w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
               required
             />
