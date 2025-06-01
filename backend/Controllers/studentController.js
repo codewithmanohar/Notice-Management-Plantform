@@ -175,6 +175,7 @@ export const loginStudent = async (req, res) => {
       message: 'Login successful', 
       role : user.role , 
        student: {
+        first_name :personalDetails.first_name,
         email: personalDetails.email,
         student_id: student.student_id,
         course : student.course,

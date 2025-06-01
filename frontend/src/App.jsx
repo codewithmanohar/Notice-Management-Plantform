@@ -23,15 +23,16 @@ import StudentLayout from './Layouts/StudentLayout'
 import StudentProfile from './Pages/Student/StudentProfile'
 import StudentRegistration from './Pages/Student/StudentRegistration'
 import SettingsPage from './Pages/SettingsPage'
+import ViewNoticePage from './Pages/Student/ViewNoticePage'
 
 
 const App = () => {
 const { authUser, checkAuth, isLoading } = useAuthStore();
 
-  // useEffect(() => {
-  //   checkAuth();
-  //   console.log(authUser);
-  // },[checkAuth]);
+  useEffect(() => {
+    // checkAuth();
+    console.log(authUser);
+  },[]);
 
 if (isLoading) return <div>Loading...</div>;
 
@@ -70,6 +71,7 @@ if (isLoading) return <div>Loading...</div>;
         <Route path="notices" element={<StudentNoticePage />} />
         <Route path="profile" element={<StudentProfile />} />
         <Route path="settings" element={<SettingsPage />} />
+        <Route path="/student/notices/:id" element={<ViewNoticePage />} />
       </Route>
 
 

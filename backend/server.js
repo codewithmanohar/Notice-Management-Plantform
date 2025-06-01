@@ -6,6 +6,7 @@ import adminRouter from "./Routes/admin.js"
 import facultyRouter from "./Routes/faculty.js"
 import checkAuth from "./Routes/checkAuth.js"
 import noticeRouter from "./Routes/notice.js"
+import feedbackRouter from "./Routes/feedback.js"
 
 import cors from "cors"
 import dotenv from "dotenv";
@@ -30,6 +31,8 @@ app.use("/api/faculty", facultyRouter);
 app.use("/api/auth", checkAuth);
 
 app.use("/api/notice", noticeRouter);
+
+app.use("/api/feedback", feedbackRouter);
 
 app.listen(PORT , () => {
     console.log(`Server is running PORT : ${PORT}`);

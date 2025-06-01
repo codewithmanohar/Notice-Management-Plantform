@@ -1,7 +1,19 @@
 import React from "react";
-import { Menu, Sun, Moon, LogOut } from "lucide-react";
+import { Menu, Sun, Moon, LogOut , User, User2} from "lucide-react";
+import useAuthStore from "../../Store/useAuthStore";
+import { useState } from "react";
+import { useEffect } from "react";
+
 
 export default function StudentTopbar({ toggleDarkMode, darkMode, setSidebarOpen }) {
+  const [user , setUser ] = useState("No User");
+  const { authUser, checkAuth, isLoading } = useAuthStore();
+  
+  useEffect(() => {
+    console.log(authUser);
+    setUser(authUser.student.first_name);
+  },[]);
+
   return (
     <header className="flex justify-between items-center p-4 bg-white dark:bg-gray-800 shadow-md">
       <div className="flex items-center gap-4">
@@ -16,6 +28,7 @@ export default function StudentTopbar({ toggleDarkMode, darkMode, setSidebarOpen
         </h1>
       </div>
       <div className="flex items-center gap-4">
+        <p className="flex gap-1"><User className="size-5"/>{user}</p>
         <button
           onClick={toggleDarkMode}
           className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
